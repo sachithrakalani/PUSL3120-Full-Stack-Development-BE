@@ -6,6 +6,9 @@ const app = express();
 //Create Responce
 app.get("/", (req, res) => [res.send("Hello Node API")]);
 
+//Middleware
+app.use(express.json());
+
 //Add Moives
 app.post('/api/moives',(req,res)=>{
     console.log(req.body);
