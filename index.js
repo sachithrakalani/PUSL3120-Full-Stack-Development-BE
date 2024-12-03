@@ -6,6 +6,12 @@ const app = express();
 //Create Responce
 app.get("/", (req, res) => [res.send("Hello Node API")]);
 
+//Add Moives
+app.post('/api/moives',(req,res)=>{
+    console.log(req.body);
+    res.send(req.body);
+});
+
 //Connect the Database
 mongoose
   .connect(
