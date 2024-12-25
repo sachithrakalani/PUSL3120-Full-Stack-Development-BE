@@ -1,5 +1,5 @@
-const express = require("express");
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
+import express from "express";
 const Moives = require('./models/moive.model');
 
 const app = express();
