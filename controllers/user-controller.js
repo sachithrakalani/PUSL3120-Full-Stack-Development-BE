@@ -31,7 +31,7 @@ export const signup = async (req, res, next) => {
   let user;
   try {
     user = new User({ username, email, password });
-    user = user.save();
+    user = await user.save();
   } catch (error) {
     console.log(error);
     return next(error);
