@@ -1,6 +1,5 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const Moives = require('./models/moive.model');
+import mongoose from "mongoose";
+import express from "express";
 
 const app = express();
 
@@ -11,22 +10,22 @@ app.get("/", (req, res) => [res.send("Hello Node API")]);
 app.use(express.json());
 
 //Add Moives
-app.post('/api/movie',async (req,res)=>{
-    try{
-        const moives = await Moives.create(req.body);
-        res.status(200).json(moives);
-    }catch(error){
-        res.status(500).json({message: error.message})
-    }
+app.post("/api/movie", async (req, res) => {
+  try {
+    const moives = await Moives.create(req.body);
+    res.status(200).json(moives);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 //Get all Moives
-app.get('/api/movies',async (req,res)=>{
-  try{
+app.get("/api/movies", async (req, res) => {
+  try {
     const moives = await Moives.find({});
     res.status(200).json(moives);
-  }catch(error){
-    res.status(500).json({message: error.message});
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 
