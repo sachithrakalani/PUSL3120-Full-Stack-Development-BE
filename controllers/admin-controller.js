@@ -63,5 +63,9 @@ export const adminLogin = async (req, res, next) => {
     return res.status(400).json({ message: "Incorrect Password" });
   }
 
-  return res.status(200).json({ message: "Authentication Complete" });
+  const token = jwt.sign({ id: existingAdmin._id }, process.env.SECRET_KEY, {
+    expiresIn: "30d",
+  });
+
+  return res.status(200).json({ message: "Authentication Complete", token, id: existingAdmin._id });
 };
