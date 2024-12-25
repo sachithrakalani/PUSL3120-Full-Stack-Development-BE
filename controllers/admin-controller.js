@@ -1,0 +1,36 @@
+import Admin from "../models/Admin-model.js";
+import bcrypt from "bcryptjs";
+
+export const addAdmin = async (req, res, next) => {
+  const { username, email, password } = req.body;
+  if (
+    (!username && username.trim() === "") ||
+    (!email && email.trim() === "" && !password && password.trim() === "")
+  ) {
+    return res.status(422).json({ message: "Invalid Inputs" });
+  }
+
+  let existingAdmin;
+  try {
+    existingAdmin = await Admin.findOne({ email });
+  } catch (err) {
+    return console.log(err);
+  }
+
+  if (existingAdmin) {
+    return res.status(400).json({ message: "Admin already exists" });
+  }
+
+  let admin;
+  const hashedPassword = bcrypt.hashSync(password);
+  try {
+    admin = new Admin({  username, email, password: hashedPassword });
+    admin = await admin.save();
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!admin) {
+    return res.status(500).json({ message: "Unable to store admin" });
+  }
+  return res.status(201).json({ admin });
+};
