@@ -33,7 +33,7 @@ export const signup = async (req, res, next) => {
   const hashedPassword = bcrypt.hashSync(password);
   let user;
   try {
-    user = new User({ username, email, password:hashedPassword });
+    user = new User({ username, email, password: hashedPassword });
     user = await user.save();
   } catch (error) {
     console.log(error);
@@ -43,4 +43,34 @@ export const signup = async (req, res, next) => {
     return res.status(500).json({ message: "Unexpected Error Occured" });
   }
   return res.status(201).json({ user });
+};
+
+export const updateUser = async (req, res, next) => {
+  const id = req.params.id;
+  const { username, email, password } = req.body;
+  if (
+    !username ||
+    username.trim() === "" ||
+    !email ||
+    email.trim() === "" ||
+    !password ||
+    password.trim() === ""
+  ) {
+    return res.status(422).json({ message: "Invalid Inputs" });
+  }
+  const hashedPassword = bcrypt.hashSync(password);
+  let user;
+  try {
+    user = await User.findByIdAndUpdate(id, {
+      username,
+      email,
+      password: hashedPassword,
+    });
+  } catch (error) {
+    return console.log(error);
+  }
+  if (!user) {
+    return res.status(500).json({ message: "Something Went Worng" });
+  }
+  res.status(200).json({ message: "Updated Sucessfully" });
 };
