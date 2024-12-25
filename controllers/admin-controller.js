@@ -2,8 +2,11 @@ import Admin from "../models/Admin-model.js";
 import bcrypt from "bcryptjs";
 
 export const addAdmin = async (req, res, next) => {
-  const { email, password } = req.body;
-  if (!email && email.trim() === "" && !password && password.trim() === "") {
+  const { username, email, password } = req.body;
+  if (
+    (!username && username.trim() === "") ||
+    (!email && email.trim() === "" && !password && password.trim() === "")
+  ) {
     return res.status(422).json({ message: "Invalid Inputs" });
   }
 
@@ -21,7 +24,7 @@ export const addAdmin = async (req, res, next) => {
   let admin;
   const hashedPassword = bcrypt.hashSync(password);
   try {
-    admin = new Admin({ email, password: hashedPassword });
+    admin = new Admin({  username, email, password: hashedPassword });
     admin = await admin.save();
   } catch (err) {
     return console.log(err);
