@@ -3,6 +3,7 @@ import express from "express";
 import dotenv from "dotenv";
 import userRouter from "./routes/user-routes.js";
 import adminRouter from "./routes/admin-routes.js";
+import movieRouter from "./routes/movie-routes.js";
 dotenv.config();
 
 const app = express();
@@ -11,6 +12,7 @@ const app = express();
 app.use(express.json())
 app.use("/user", userRouter);
 app.use("/admin", adminRouter);
+app.use("/movie", movieRouter);
 
 //Create Responce
 app.get("/", (req, res) => [res.send("Hello Node API")]);
