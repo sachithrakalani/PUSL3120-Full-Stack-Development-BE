@@ -47,10 +47,10 @@ export const signup = async (req, res, next) => {
 
 export const updateUser = async (req, res, next) => {
   const id = req.params.id;
-  const { name, email, password } = req.body;
+  const { username, email, password } = req.body;
   if (
-    !name ||
-    name.trim() === "" ||
+    !username ||
+    username.trim() === "" ||
     !email ||
     email.trim() === "" ||
     !password ||
@@ -62,7 +62,7 @@ export const updateUser = async (req, res, next) => {
   let user;
   try {
     user = await User.findByIdAndUpdate(id, {
-      name,
+      username,
       email,
       password: hashedPassword,
     });
