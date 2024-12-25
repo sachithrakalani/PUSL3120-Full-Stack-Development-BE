@@ -1,5 +1,6 @@
 import Admin from "../models/Admin-model.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const addAdmin = async (req, res, next) => {
   const { username, email, password } = req.body;
