@@ -1,13 +1,14 @@
 import mongoose from "mongoose";
 import express from "express";
+import userRouter from "./routes/user-routes.js";
 
 const app = express();
 
+//Middleware
+app.use("/user", userRouter);
+
 //Create Responce
 app.get("/", (req, res) => [res.send("Hello Node API")]);
-
-//Middleware
-app.use(express.json());
 
 //Add Moives
 app.post("/api/movie", async (req, res) => {
