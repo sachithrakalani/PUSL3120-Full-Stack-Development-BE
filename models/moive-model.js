@@ -1,37 +1,34 @@
 import mongoose from "mongoose";
 
-const ProductSchema = mongoose.Schema(
-  {
-    moiveName: {
-      type: String,
-      required: [true, "Please enter Moive name"],
-    },
-
-    moiveDescription: {
-      type: String,
-      required: [true, "Please enter Moive Description"],
-    },
-
-    moiveImage: {
-      type: String,
-      required: [true, "Please enter Moive Image"],
-    },
-
-    moiveDescription: {
-      type: String,
-      required: [true, "Please enter Moive Description"],
-    },
-
-    moiveDescription: {
-      type: String,
-      required: [true, "Please enter Moive Description"],
-    },
+const movieSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
   },
+  description: {
+    type: String,
+    required: true,
+  },
+  actors: [{ type: String, required: true }],
+  releaseDate: {
+    type: Date,
+    required: true,
+  },
+  endDate: {
+    type: Date,
+    required: true,
+  },
+  nowshowingImage: {
+    type: String  
+  },
+  comingsoonImage: {
+    type: String,
+  },
+  featured: {
+    type: Boolean,
+  },
+  bookings: [{}],
+  admin: {},
+});
 
-  {
-    Timestamp: true,
-  }
-);
-
-const Moives = mongoose.model("Moives", ProductSchema);
-module.exports = Moives;
+export default mongoose.model("Movie", movieSchema);
