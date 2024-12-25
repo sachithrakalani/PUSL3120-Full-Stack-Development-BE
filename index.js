@@ -10,7 +10,7 @@ const app = express();
 //Middleware
 app.use(express.json())
 app.use("/user", userRouter);
-app.use("/admin", adminRouter)
+app.use("/admin", adminRouter);
 
 //Create Responce
 app.get("/", (req, res) => [res.send("Hello Node API")]);
