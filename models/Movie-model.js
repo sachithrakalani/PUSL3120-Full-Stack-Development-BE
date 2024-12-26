@@ -19,7 +19,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   nowshowingImage: {
-    type: String  
+    type: String,
   },
   comingsoonImage: {
     type: String,
