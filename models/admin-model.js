@@ -15,9 +15,7 @@ const adminSchema = new mongoose.Schema({
     required: true,
     minLength: 6,
   },
-  addedMovies: [
-    {},
-  ],
+  addedMovies: [{}],
 });
 
 export default mongoose.model("Admin", adminSchema);
