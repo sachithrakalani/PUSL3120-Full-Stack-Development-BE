@@ -12,7 +12,7 @@ export const newBooking = async (req, res, next) => {
       seatNumber,
       user,
     });
-    booking = await Bookings.Save();
+    booking = await booking.save();
   } catch (err) {
     return console.log(err);
   }
