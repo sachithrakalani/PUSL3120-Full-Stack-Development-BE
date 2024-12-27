@@ -1,5 +1,8 @@
 import User from "../models/User-model.js";
+import Bookings from "../models/Bookings-model.js";
 import bcrypt from "bcryptjs";
+
+
 
 export const getAllUsers = async (req, res, next) => {
   let users;
@@ -117,4 +120,20 @@ export const loginUser = async (req, res, next) => {
     return res.status(400).json({ message: "Incorrect Password" });
   }
   return res.status(200).json({ message: "Login Successfully" });
+};
+
+export const getBookingsOfUser = async (req, res, next) => {
+  const id = req.params.id;
+  let bookings;
+  try {
+    bookings = await Bookings.find({ user: id })
+      .populate("movie")
+      .populate("user");
+  } catch (err) {
+    return console.log(err);
+  }
+  if (!bookings) {
+    return res.status(500).json({ message: "Unable to get Bookings" });
+  }
+  return res.status(200).json({ bookings });
 };
