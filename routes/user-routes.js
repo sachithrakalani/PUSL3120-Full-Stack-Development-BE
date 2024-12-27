@@ -3,6 +3,7 @@ import {
   deleteUser,
   getAllUsers,
   getBookingsOfUser,
+  getUserById,
   loginUser,
   signup,
   updateUser,
@@ -16,5 +17,7 @@ userRouter.put("/:id", updateUser);
 userRouter.delete("/:id", deleteUser);
 userRouter.post("/login", loginUser);
 userRouter.get("/bookings/:id", getBookingsOfUser);
+userRouter.get("/:id", getUserById);
+
 
 export default userRouter;
