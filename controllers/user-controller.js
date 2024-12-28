@@ -44,7 +44,7 @@ export const signup = async (req, res, next) => {
   if (!user) {
     return res.status(500).json({ message: "Unexpected Error Occured" });
   }
-  return res.status(201).json({ user });
+  return res.status(201).json({ user, message: "Sign up success.Login again" });
 };
 
 export const updateUser = async (req, res, next) => {
@@ -120,10 +120,10 @@ export const loginUser = async (req, res, next) => {
   }
 
   const token = jwt.sign(
-    { id: existingUser._id, role: "User" },
+    { id: existingUser._id, role: "User", email: existingUser.email, },
     process.env.SECRET_KEY,
     {
-      expiresIn: "1h",
+      expiresIn: "5min"
     }
   );
 
@@ -133,6 +133,7 @@ export const loginUser = async (req, res, next) => {
       message: "Login Successfully",
       token,
       id: existingUser._id,
+      email: existingUser.email,
       role: "User",
     });
 };

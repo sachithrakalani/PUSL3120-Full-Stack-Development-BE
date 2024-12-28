@@ -37,7 +37,7 @@ export const addAdmin = async (req, res, next) => {
   if (!admin) {
     return res.status(500).json({ message: "Unable to store admin" });
   }
-  return res.status(201).json({ admin });
+  return res.status(201).json({ admin, message: "Sign up success.Login again" });
 };
 
 export const adminLogin = async (req, res, next) => {
@@ -64,7 +64,7 @@ export const adminLogin = async (req, res, next) => {
   }
 
   const token = jwt.sign(
-    { id: existingAdmin._id, role: "Admin" },
+    { id: existingAdmin._id, role: "Admin", email: existingAdmin.email },
     process.env.SECRET_KEY,
     {
       expiresIn: "30d",
@@ -78,6 +78,7 @@ export const adminLogin = async (req, res, next) => {
       token,
       id: existingAdmin._id,
       role: "Admin",
+      email: existingAdmin.email,
     });
 };
 
