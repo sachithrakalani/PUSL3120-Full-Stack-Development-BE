@@ -1,6 +1,7 @@
 import User from "../models/User-model.js";
 import Bookings from "../models/Bookings-model.js";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 export const getAllUsers = async (req, res, next) => {
   let users;
@@ -117,7 +118,23 @@ export const loginUser = async (req, res, next) => {
   if (!isPasswordCorrect) {
     return res.status(400).json({ message: "Incorrect Password" });
   }
-  return res.status(200).json({ message: "Login Successfully" });
+
+  const token = jwt.sign(
+    { id: existingUser._id, role: "User" },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "1h",
+    }
+  );
+
+  return res
+    .status(200)
+    .json({
+      message: "Login Successfully",
+      token,
+      id: existingUser._id,
+      role: "User",
+    });
 };
 
 export const getBookingsOfUser = async (req, res, next) => {
