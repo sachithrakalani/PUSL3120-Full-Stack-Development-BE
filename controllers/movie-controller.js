@@ -28,10 +28,9 @@ export const addMovie = async (req, res, next) => {
     releaseDate,
     endDate,
     nowshowingImage,
-    comingsoonImage,
-    featured,
     actors,
   } = req.body;
+  console.log(req.body);
   if (
     !title ||
     title.trim() === "" ||
@@ -51,10 +50,8 @@ export const addMovie = async (req, res, next) => {
       description,
       releaseDate: new Date(`${releaseDate}`),
       endDate: new Date(`${endDate}`),
-      featured,
       actors,
       admin: adminId,
-      comingsoonImage,
       nowshowingImage,
       title,
     });
