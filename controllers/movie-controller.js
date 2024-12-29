@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import mongoose from "mongoose";
 import Admin from "../models/Admin-model.js";
 import Movie from "../models/Movie-model.js";
+import Bookings from "../models/Bookings-model.js";
 
 export const addMovie = async (req, res, next) => {
   const extractedToken = req.headers.authorization.split(" ")[1];
@@ -22,7 +23,8 @@ export const addMovie = async (req, res, next) => {
   });
 
   //create new movie
-  const { title, description, releaseDate, endDate, nowshowingImage, actors } = req.body;
+  const { title, description, releaseDate, endDate, nowshowingImage, actors } =
+    req.body;
   if (
     !title ||
     title.trim() === "" ||
@@ -92,4 +94,66 @@ export const getMovieById = async (req, res, next) => {
     return res.status(404).json({ message: "Inavalid Movie ID" });
   }
   return res.status(200).json({ movie });
+};
+
+export const getAvailableSeats = async (req, res, next) => {
+  console.log("QUERY", req.query);
+  const { movieId, date, time } = req.query;
+
+  if (!movieId || !date || !time) {
+    return res
+      .status(400)
+      .json({ message: "Movie ID, date, and time are required." });
+  }
+
+  try {
+    const selectedDate = new Date(date);
+
+    const allSeats = [
+      { id: "A1", occupied: false },
+      { id: "A2", occupied: false },
+      { id: "A3", occupied: false },
+      { id: "A4", occupied: false },
+      { id: "A5", occupied: false },
+      { id: "A6", occupied: false },
+      { id: "B1", occupied: false },
+      { id: "B2", occupied: false },
+      { id: "B3", occupied: false },
+      { id: "B4", occupied: false },
+      { id: "B5", occupied: false },
+      { id: "B6", occupied: false },
+      { id: "C1", occupied: false },
+      { id: "C2", occupied: false },
+      { id: "C3", occupied: false },
+      { id: "C4", occupied: false },
+      { id: "C5", occupied: false },
+      { id: "C6", occupied: false },
+      { id: "D1", occupied: false },
+      { id: "D2", occupied: false },
+      { id: "D3", occupied: false },
+      { id: "D4", occupied: false },
+      { id: "D5", occupied: false },
+      { id: "D6", occupied: false },
+    ];
+
+    const bookings = await Bookings.find({
+      movie: movieId,
+      date: selectedDate,
+      time: time,
+    });
+
+    const occupiedSeats = bookings.map((booking) => booking.seatNumber);
+
+    const updatedSeats = allSeats.map((seat) => {
+      return {
+        ...seat,
+        occupied: occupiedSeats.includes(seat.id) ? true : seat.occupied,
+      };
+    });
+
+    res.status(200).json({ seats: updatedSeats });
+  } catch (error) {
+    console.error("Error fetching available seats:", error);
+    res.status(500).json({ message: "Error fetching available seats." });
+  }
 };
