@@ -22,15 +22,7 @@ export const addMovie = async (req, res, next) => {
   });
 
   //create new movie
-  const {
-    title,
-    description,
-    releaseDate,
-    endDate,
-    nowshowingImage,
-    actors,
-  } = req.body;
-  console.log(req.body);
+  const { title, description, releaseDate, endDate, nowshowingImage, actors } = req.body;
   if (
     !title ||
     title.trim() === "" ||
